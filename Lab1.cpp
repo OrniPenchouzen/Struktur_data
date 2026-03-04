@@ -1,4 +1,5 @@
 ﻿#include <iostream>
+#include <locale>
 
 // Расширенный алгоритм Евклида
 int gcdExtended(int a, int b, int& x, int& y) {
@@ -18,50 +19,48 @@ int main() {
     int a, b, c;
     std::cin >> a >> b >> c;
 
-    // Находим НОД(a, b) и коэффициенты x0, y0 такие, что a*x0 + b*y0 = gcd(a,b)
+    std::locale::global(std::locale("Russian"));
     int x0, y0;
     int gcd = gcdExtended(a, b, x0, y0);
 
-    // Проверяем, существует ли решение
+   
     if (c % gcd != 0) {
         std::cout << "Impossible" << std::endl;
         return 0;
     }
 
-    // Находим частное решение
+   
     int k = c / gcd;
     long long x = (long long)x0 * k;
     long long y = (long long)y0 * k;
 
-    // Общее решение: x = x0*(c/gcd) + (b/gcd)*t
-    //                 y = y0*(c/gcd) - (a/gcd)*t
-    // где t - целое число
 
-    // Находим t, чтобы x был наименьшим неотрицательным
-    long long step = b / gcd;  // шаг изменения x
 
-    if (step < 0) step = -step;  // делаем шаг положительным
+   
+    long long step = b / gcd; 
 
+    if (step < 0) step = -step;  
     if (x >= 0) {
-        // Уменьшаем x, пока он остается неотрицательным
+        
         long long t = x / step;
         x -= t * step;
         y += t * (a / gcd);
     }
     else {
-        // Увеличиваем x до первого неотрицательного значения
-        long long t = (-x + step - 1) / step;  // ceil(-x / step)
+     
+        long long t = (-x + step - 1) / step;  
         x += t * step;
         y -= t * (a / gcd);
     }
 
-    // Дополнительная проверка: если x все еще отрицательный
+  
     if (x < 0) {
         x += step;
         y -= (a / gcd);
     }
 
     std::cout << x << " " << y << std::endl;
+    std::cout << "Зыков Алексей Александрович 020303-АИСа-о25"
 
     return 0;
 }
